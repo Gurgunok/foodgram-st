@@ -14,16 +14,16 @@
 1.Клонируйте репозиторий:
 ```bash
 git clone https://github.com/Gurgunok/foodgram-st.git
-
+```
 2.Запустите проект:
 ```bash
 cd infra
 docker-compose up -d
-
+```
 3.Создайте суперпользователя:
 ```bash
 docker-compose exec backend python manage.py createsuperuser
-
+```
 4.Доступ к проекту:
 
 Фронтенд доступен по адресу: http://localhost
@@ -35,5 +35,5 @@ postman_collection/foodgram.postman_collection.json
 6.Для остановки сервисов используйте команду:
 ```bash
 docker-compose down
-
+```
 Ингридиенты для рецептов добавлять в меню админа
