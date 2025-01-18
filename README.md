@@ -24,6 +24,12 @@ docker-compose up -d
 ```bash
 docker-compose exec backend python manage.py createsuperuser
 ```
+4.Загрузите ингридиенты:
+```bash
+cd infra
+docker-compose exec backend bash
+python manage.py load_ingredients data/ingredients.json
+```
 4.Доступ к проекту:
 
 Фронтенд доступен по адресу: http://localhost
