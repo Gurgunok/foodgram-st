@@ -2,43 +2,136 @@
 
 ## Описание
 
-Проект "Foodgram" — это веб-приложение, которое позволяет пользователям добавлять рецепты, делиться ими и сохранять их в избранное.
+**Foodgram** — это веб-приложение для любителей кулинарии. Оно позволяет пользователям:
+- Публиковать рецепты.
+- Просматривать рецепты других пользователей.
+- Добавлять рецепты в избранное.
+- Формировать список покупок на основе выбранных рецептов.
 
-## Требования
+Проект разработан с использованием **Django** и **Django REST Framework**. Фронтенд приложения работает на **React**.
 
-- Docker
-- Docker Compose
+## Стек технологий
+
+- **Backend**: Python 3, Django, Django REST Framework, PostgreSQL
+- **Frontend**: React
+- **API**: REST API
+- **Контейнеризация**: Docker, Docker Compose
+- **Web-сервер**: Nginx
 
 ## Установка и запуск
 
-1.Клонируйте репозиторий:
+### 1. Клонирование репозитория
 ```bash
 git clone https://github.com/Gurgunok/foodgram-st.git
+cd foodgram-st
 ```
-2.Запустите проект:
+### 2. Запуск контейнеров
+
+Перейдите в папку **infra** и запустите контейнеры с помощью Docker Compose:
 ```bash
 cd infra
 docker-compose up -d
 ```
-3.Создайте суперпользователя:
+Это развернет проект с базой данных **PostgreSQL**, бекендом на **Django** и веб-сервером **Nginx**.
+
+### 3. Создание суперпользователя
+
+Для доступа к админ-панели создайте суперпользователя:
 ```bash
 docker-compose exec backend python manage.py createsuperuser
 ```
-4.Загрузите ингридиенты:
+
+### 4. Загрузка ингредиентов
+
+Приложение использует список ингредиентов, который можно загрузить из файла:
 ```bash
-cd infra
-docker-compose exec backend bash
-python manage.py load_ingredients data/ingredients.json
+docker-compose exec backend python manage.py load_ingredients data/ingredients.json
 ```
-5.Доступ к проекту:
 
-Фронтенд доступен по адресу: http://localhost
-Админ-панель Django доступна по адресу: http://localhost/admin или http://127.0.0.1:8000/admin
+### 5. Доступ к проекту
 
-6.Тесты проводились в postmen по пути:
-postman_collection/foodgram.postman_collection.json
+* Главная страница: http://localhost
+* Админ-панель Django: http://localhost/admin или http://127.0.0.1:8000/admin
+* API документация: http://localhost/api/docs/
 
-7.Для остановки сервисов используйте команду:
+### 6. Остановка сервисов
+Для остановки контейнеров выполните:
 ```bash
 docker-compose down
 ```
+
+## Переменные окружения (ENV)
+
+Для корректной работы проекта требуется настроить переменные окружения в файле .env. Создайте его в папке infra:
+```bash
+cd infra
+touch .env
+```
+```ini
+Добавьте в него:
+POSTGRES_DB=your_database
+POSTGRES_USER=your_username
+POSTGRES_PASSWORD=your_password
+DB_HOST=db
+DB_PORT=5432
+DJANGO_ALLOWED_HOSTS=localhost
+DEBUG=1
+```
+После этого перезапустите контейнеры:
+```bash
+docker-compose down
+docker-compose up -d
+```
+
+## Примеры API-запросов
+
+### Получение списка рецептов
+```http
+GET /api/recipes/
+```
+
+#### Пример ответа:
+```json
+{
+  "count": 2,
+  "next": null,
+  "previous": null,
+  "results": [
+    {
+      "id": 1,
+      "name": "Борщ",
+      "author": "admin",
+      "image": "http://localhost/media/recipes/1.jpg",
+      "cooking_time": 90
+    }
+  ]
+}
+```
+
+### Добавление рецепта (POST)
+```http
+POST /api/recipes/
+```
+
+#### Тело запроса:
+```json
+{
+  "name": "Оливье",
+  "ingredients": [
+    {
+      "id": 1,
+      "amount": 200
+    }
+  ],
+  "cooking_time": 30
+} 
+```
+
+### Удаление рецепта (DELETE)
+```http
+DELETE /api/recipes/1/
+```
+
+## Автор
+
+Разработано студентом САФУ Варакосиным Даниилом в рамках итогового проекта.
