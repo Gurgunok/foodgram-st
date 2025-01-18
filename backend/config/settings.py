@@ -15,8 +15,10 @@ SECRET_KEY = os.getenv("SECRET_KEY", get_random_secret_key())
 # Читаем DEBUG из переменных окружения и приводим к bool
 DEBUG = os.getenv("DEBUG", "False").lower() == "true"
 
-# Читаем ALLOWED_HOSTS из переменных окружения, по умолчанию "localhost,127.0.0.1"
-ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
+# Читаем ALLOWED_HOSTS из переменных окружения
+ALLOWED_HOSTS = os.getenv(
+    "ALLOWED_HOSTS", "localhost,127.0.0.1"
+).split(",")
 
 # Пути для медиафайлов
 MEDIA_URL = "/media/"
@@ -44,8 +46,10 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework.authentication.TokenAuthentication",
     ),
-    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
-    "PAGE_SIZE": int(os.getenv("PAGE_SIZE", 6)),  # Вынесено в переменные окружения
+    "DEFAULT_PAGINATION_CLASS": (
+        "rest_framework.pagination.LimitOffsetPagination"
+    ),
+    "PAGE_SIZE": int(os.getenv("PAGE_SIZE", 6)),
     "DEFAULT_FILTER_BACKENDS": (
         "django_filters.rest_framework.DjangoFilterBackend",
     ),
@@ -98,10 +102,30 @@ DATABASES = {
 }
 
 AUTH_PASSWORD_VALIDATORS = [
-    {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
-    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
-    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
-    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
+    {
+        "NAME": (
+            "django.contrib.auth.password_validation."
+            "UserAttributeSimilarityValidator"
+        )
+    },
+    {
+        "NAME": (
+            "django.contrib.auth.password_validation."
+            "MinimumLengthValidator"
+        )
+    },
+    {
+        "NAME": (
+            "django.contrib.auth.password_validation."
+            "CommonPasswordValidator"
+        )
+    },
+    {
+        "NAME": (
+            "django.contrib.auth.password_validation."
+            "NumericPasswordValidator"
+        )
+    },
 ]
 
 LOGGING = {
@@ -129,7 +153,7 @@ USE_L10N = True
 USE_TZ = True
 
 # Пути для статики
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 STATIC_URL = "/static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
