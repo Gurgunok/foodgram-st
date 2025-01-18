@@ -30,16 +30,15 @@ cd infra
 docker-compose exec backend bash
 python manage.py load_ingredients data/ingredients.json
 ```
-4.Доступ к проекту:
+5.Доступ к проекту:
 
 Фронтенд доступен по адресу: http://localhost
 Админ-панель Django доступна по адресу: http://localhost/admin или http://127.0.0.1:8000/admin
 
-5.Тесты проводились в postmen по пути:
+6.Тесты проводились в postmen по пути:
 postman_collection/foodgram.postman_collection.json
 
-6.Для остановки сервисов используйте команду:
+7.Для остановки сервисов используйте команду:
 ```bash
 docker-compose down
 ```
-Ингридиенты для рецептов добавлять в меню админа
