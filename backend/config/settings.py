@@ -1,16 +1,26 @@
 from pathlib import Path
 import os
+from dotenv import load_dotenv
+from django.core.management.utils import get_random_secret_key
+
+# Загружаем переменные окружения из .env
+load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 BASE_URL = "http://localhost"
 
-SECRET_KEY = "django-insecure-86+te7$pad03rdev^v=wa6k+m*&$fn!f(h(qje_fv2#ch%3@6^"
-DEBUG = True
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", "foodgram-backend"]
+# Читаем SECRET_KEY из переменных окружения или генерируем новый
+SECRET_KEY = os.getenv("SECRET_KEY", get_random_secret_key())
 
+# Читаем DEBUG из переменных окружения и приводим к bool
+DEBUG = os.getenv("DEBUG", "False").lower() == "true"
+
+# Читаем ALLOWED_HOSTS из переменных окружения, по умолчанию "localhost,127.0.0.1"
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
+
+# Пути для медиафайлов
 MEDIA_URL = "/media/"
 MEDIA_ROOT = "/app/media"
-
 
 AUTH_USER_MODEL = "users.User"
 
@@ -22,10 +32,10 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django_filters",
-    # rest framework + токены
+    # REST Framework + токены
     "rest_framework",
     "rest_framework.authtoken",
-    # проектные приложения
+    # Проектные приложения
     "users",
     "recipes",
 ]
@@ -35,7 +45,7 @@ REST_FRAMEWORK = {
         "rest_framework.authentication.TokenAuthentication",
     ),
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
-    "PAGE_SIZE": 6,
+    "PAGE_SIZE": int(os.getenv("PAGE_SIZE", 6)),  # Вынесено в переменные окружения
     "DEFAULT_FILTER_BACKENDS": (
         "django_filters.rest_framework.DjangoFilterBackend",
     ),
@@ -45,7 +55,6 @@ REST_FRAMEWORK = {
         "rest_framework.parsers.MultiPartParser",
     ],
 }
-
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -77,12 +86,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "config.wsgi.application"
 
-# Удаляем (или отключаем) блок SIMPLE_JWT, если он не нужен:
-# SIMPLE_JWT = {
-#     'BLACKLIST_AFTER_ROTATION': True,
-# }
-
-
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
@@ -95,18 +98,10 @@ DATABASES = {
 }
 
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
-    },
-    {
-        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
-    },
-    {
-        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
-    },
-    {
-        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
-    },
+    {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
+    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
+    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
+    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
 
 LOGGING = {
@@ -123,12 +118,18 @@ LOGGING = {
     },
 }
 
-LANGUAGE_CODE = "en-us"
-TIME_ZONE = "UTC"
+# Русификация проекта
+LANGUAGE_CODE = "ru"
+
+# Часовой пояс (Московское время)
+TIME_ZONE = "Europe/Moscow"
+
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
+# Пути для статики
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = "/static/"
+
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
