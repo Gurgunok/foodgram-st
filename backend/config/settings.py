@@ -3,9 +3,6 @@ import os
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 BASE_URL = "http://localhost"
-STATICFILES_DIRS = [
-    BASE_DIR / "static",
-]
 
 SECRET_KEY = "django-insecure-86+te7$pad03rdev^v=wa6k+m*&$fn!f(h(qje_fv2#ch%3@6^"
 DEBUG = True
