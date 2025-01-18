@@ -67,15 +67,20 @@ docker-compose down
 cd infra
 touch .env
 ```
-```ini
 Добавьте в него:
+```ini
+SECRET_KEY=your_secret_key
+DEBUG=True
+ALLOWED_HOSTS=localhost,127.0.0.1,foodgram-backend
+
 POSTGRES_DB=your_database
 POSTGRES_USER=your_username
 POSTGRES_PASSWORD=your_password
 DB_HOST=db
 DB_PORT=5432
-DJANGO_ALLOWED_HOSTS=localhost
-DEBUG=1
+
+PAGE_SIZE=6
+
 ```
 После этого перезапустите контейнеры:
 ```bash
