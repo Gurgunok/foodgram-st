@@ -1,26 +1,27 @@
+# Стандартная библиотека
 from pathlib import Path
 import os
+
+# Сторонние библиотеки
 from dotenv import load_dotenv
 from django.core.management.utils import get_random_secret_key
 
-# Загружаем переменные окружения из .env
+load_dotenv()
+
+
 load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 BASE_URL = "http://localhost"
 
-# Читаем SECRET_KEY из переменных окружения или генерируем новый
 SECRET_KEY = os.getenv("SECRET_KEY", get_random_secret_key())
 
-# Читаем DEBUG из переменных окружения и приводим к bool
 DEBUG = os.getenv("DEBUG", "False").lower() == "true"
 
-# Читаем ALLOWED_HOSTS из переменных окружения
 ALLOWED_HOSTS = os.getenv(
     "ALLOWED_HOSTS", "localhost,127.0.0.1"
 ).split(",")
 
-# Пути для медиафайлов
 MEDIA_URL = "/media/"
 MEDIA_ROOT = "/app/media"
 
